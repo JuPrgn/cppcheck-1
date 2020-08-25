@@ -8,6 +8,7 @@
   <?define PtfsDir = "..\platforms" ?>
   <?define AddonsDir = "..\addons" ?>
   <?define QtDllDir = "..\bin" ?>
+  <?define QtPluginsDir = "..\bin"?>
   <?define Z3DllDir = "..\externals\z3\bin" ?>
 
   <?if $(var.Platform) = x64 ?>
