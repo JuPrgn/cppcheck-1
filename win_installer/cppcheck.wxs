@@ -48,7 +48,6 @@
             <?if $(var.Platform) = x64 ?>
               <File Id='Qt5Chartsdll' Name='Qt5Charts.dll' Source='$(var.QtDllDir)\Qt5Charts.dll' />
             <?endif?>
-            <File Id='qsqlitedll' Name='qsqlite.dll' Source='$(var.QtPluginsDir)\sqldrivers\qsqlite.dll' />
           </Component>
           <Directory Id='QtPlatformsFolder' Name='platforms'>
             <Component Id='QtPlatforms' DiskId='1' Guid='$(var.qtplatformsGUID)'>
@@ -58,6 +57,13 @@
           <Directory Id='QtStylesFolder' Name='styles'>
             <Component Id='QtStyles' DiskId='1' Guid='$(var.qtstylesGUID)'>
               <File Id='qwindowsvistastyledll' Name='qwindowsvistastyle.dll' Source='$(var.QtDllDir)\styles\qwindowsvistastyle.dll' />
+            </Component>
+          </Directory>
+          <Directory Id='QtSqlDriversFolder' Name='sqldrivers'>
+            <Component Id='QtSqlDrivers' DiskId='1' Guid='$(var.qtsqldriversGUID)'>
+              <File Id='qsqlitedll' Name='qsqlite.dll' Source='$(var.QtDllDir)\sqldrivers\qsqlite.dll' />
+              <File Id='qsqlodbcdll' Name='qsqlodbc.dll' Source='$(var.QtDllDir)\sqldrivers\qsqlodbc.dll' />
+              <File Id='qsqlpsqldll' Name='qsqlpsql.dll' Source='$(var.QtDllDir)\sqldrivers\qsqlpsql.dll' />
             </Component>
           </Directory>
           <Directory Id='TranslationsFolder' Name='lang'>
@@ -182,6 +188,7 @@
         <ComponentRef Id='GuiExecutable' />
         <ComponentRef Id='QtPlatforms' />
         <ComponentRef Id='QtStyles' />
+        <ComponentRef Id='QtSqlDrivers' />
         <Feature Id='Translations' Title='GUI Translations' AllowAdvertise='no' Description='Translations for graphical user interface' Level='1'>
           <ComponentRef Id='GuiTranslations' />
         </Feature>
