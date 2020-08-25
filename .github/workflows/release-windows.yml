@@ -4,12 +4,7 @@
 
 name: release-windows
 
-on:
-  push:
-    tags:
-    - '2.*'
-  schedule:
-    - cron:  '0 0 * * *'
+on: [push,pull_request]
 
 defaults:
   run:
