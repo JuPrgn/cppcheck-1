@@ -47,6 +47,8 @@ class MainWindow : public QMainWindow {
     Q_OBJECT
 public:
 
+    static QTextEdit *mDebugTextEdit;
+
     /**
      * @brief Maximum number of MRU project items in File-menu.
      */

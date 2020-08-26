@@ -39,8 +39,15 @@ static void ShowUsage();
 static void ShowVersion();
 static bool CheckArgs(const QStringList &args);
 
+static void messageHandler(QtMsgType type, const QMessageLogContext &context, const QString &msg)
+{
+    if (MainWindow::mDebugTextEdit)
+        MainWindow::mDebugTextEdit->append(msg);
+}
+
 int main(int argc, char *argv[])
 {
+    qInstallMessageHandler(messageHandler);
 
 #if (QT_VERSION >= QT_VERSION_CHECK(5, 6, 0))
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

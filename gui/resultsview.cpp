@@ -42,6 +42,9 @@
 #include "checkstatistics.h"
 #include "path.h"
 #include "codeeditorstyle.h"
+#include "mainwindow.h"
+
+#include <QDebug>
 
 ResultsView::ResultsView(QWidget * parent) :
     QWidget(parent),
@@ -49,6 +52,10 @@ ResultsView::ResultsView(QWidget * parent) :
     mStatistics(new CheckStatistics(this))
 {
     mUI.setupUi(this);
+
+    MainWindow::mDebugTextEdit = mUI.mTextLogOutput;
+
+    qDebug() << "testar";
 
     connect(mUI.mTree, &ResultsTree::resultsHidden, this, &ResultsView::resultsHidden);
     connect(mUI.mTree, &ResultsTree::checkSelected, this, &ResultsView::checkSelected);

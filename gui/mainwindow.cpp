@@ -54,6 +54,8 @@
 static const QString OnlineHelpURL("http://cppcheck.net/manual.html");
 static const QString compile_commands_json("compile_commands.json");
 
+QTextEdit *MainWindow::mDebugTextEdit;
+
 static QString getDataDir(const QSettings *settings)
 {
     const QString dataDir = settings->value("DATADIR", QString()).toString();
