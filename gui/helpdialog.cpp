@@ -1,9 +1,12 @@
 #include "helpdialog.h"
 #include "ui_helpdialog.h"
 
+#include <QFileInfo>
 #include <QHelpEngine>
 #include <QHelpContentWidget>
 #include <QHelpIndexWidget>
+#include <QMessageBox>
+#include <QSettings>
 
 void HelpBrowser::setHelpEngine(QHelpEngine *helpEngine)
 {
@@ -21,13 +24,44 @@ QVariant HelpBrowser::loadResource(int type, const QUrl &name)
     return QTextBrowser::loadResource(type, name);
 }
 
+static QString getHelpFile()
+{
+    QSettings settings;
+    const QString datadir = settings.value("DATADIR", QString()).toString();
+
+    QStringList paths;
+    paths << (datadir + "/help")
+          << datadir
+          << (QApplication::applicationDirPath() + "/help")
+          << QApplication::applicationDirPath();
+    for (QString p: paths) {
+        QString filename = p + "/online-help.qhc";
+        if (QFileInfo(filename).exists())
+            return filename;
+    }
+    return QString();
+}
+
 HelpDialog::HelpDialog(QWidget *parent) :
     QDialog(parent),
     mUi(new Ui::HelpDialog)
 {
     mUi->setupUi(this);
 
-    mHelpEngine = new QHelpEngine(QApplication::applicationDirPath() + "/online-help.qhc");
+    QString helpFile = getHelpFile();
+    if (helpFile.isEmpty()) {
+        const QString msg = tr("Helpfile '%1' was not found").arg("online-help.qhc");
+        QMessageBox msgBox(QMessageBox::Warning,
+                           tr("Cppcheck"),
+                           msg,
+                           QMessageBox::Ok,
+                           this);
+        msgBox.exec();
+        mHelpEngine = nullptr;
+        return;
+    }
+
+    mHelpEngine = new QHelpEngine(helpFile);
     mHelpEngine->setupData();
 
     mUi->contents->addWidget(mHelpEngine->contentWidget());
@@ -51,3 +85,4 @@ HelpDialog::~HelpDialog()
 {
     delete mUi;
 }
+
